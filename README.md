@@ -40,7 +40,7 @@ The location tracker inherits from [EventEmitter][].
 
 MIT
 
-[Build Status]: http://img.shields.io/travis/mantoni/licy.js.svg
+[Build Status]: http://img.shields.io/travis/mantoni/locatify.js.svg
 [SemVer]: http://img.shields.io/:semver-%E2%9C%93-brightgreen.svg
-[License]: http://img.shields.io/npm/l/licy.svg
+[License]: http://img.shields.io/npm/l/locatify.svg
 [EventEmitter]: https://nodejs.org/api/events.html
