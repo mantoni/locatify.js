@@ -1,5 +1,5 @@
 /*
- * geo-tales-mobile
+ * locatify.js
  *
  * Copyright (c) 2015 Maximilian Antoni <mail@maxantoni.de>
  *
