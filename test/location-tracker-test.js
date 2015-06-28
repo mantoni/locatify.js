@@ -49,7 +49,7 @@ describe('location-tracker', function () {
     });
 
     sinon.assert.calledOnce(spy);
-    sinon.assert.calledWith(spy, {
+    sinon.assert.calledWithMatch(spy, {
       code: 2,
       message: 'Position tracking unavailable'
     });
@@ -64,7 +64,7 @@ describe('location-tracker', function () {
     });
 
     sinon.assert.calledOnce(spy);
-    sinon.assert.calledWith(spy, {
+    sinon.assert.calledWithMatch(spy, {
       message: 'Position tracking error'
     });
   });
