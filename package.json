@@ -1,6 +1,6 @@
 {
   "name": "locatify",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Geo location and device orientation as an EventEmitter",
   "keywords": [
     "geolocation",
