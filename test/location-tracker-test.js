@@ -94,11 +94,11 @@ describe('location-tracker', function () {
     track.on('heading', spy);
 
     loc.updateOrientation({
-      alpha: 120
+      alpha: 120.3
     });
 
     sinon.assert.calledOnce(spy);
-    sinon.assert.calledWith(spy, 120);
+    sinon.assert.calledWith(spy, 240);
   });
 
   it('emits "heading" on orientation change (webkit)', function () {
@@ -107,11 +107,42 @@ describe('location-tracker', function () {
 
     loc.updateOrientation({
       alpha: 6,
-      webkitCompassHeading: 120
+      webkitCompassHeading: 120.3
     });
 
     sinon.assert.calledOnce(spy);
     sinon.assert.calledWith(spy, 120);
+  });
+
+  it('does not emit "heading" if value is null (standard)', function () {
+    var spy = sinon.spy();
+    track.on('heading', spy);
+
+    loc.updateOrientation({
+      alpha: null
+    });
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('does not emit "heading" if value is null (webkit)', function () {
+    var spy = sinon.spy();
+    track.on('heading', spy);
+
+    loc.updateOrientation({
+      webkitCompassHeading: null
+    });
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('does not emit "heading" if none of the values is given', function () {
+    var spy = sinon.spy();
+    track.on('heading', spy);
+
+    loc.updateOrientation({});
+
+    sinon.assert.notCalled(spy);
   });
 
   it('does not emit "heading" after destroy', function () {
@@ -124,6 +155,34 @@ describe('location-tracker', function () {
     });
 
     sinon.assert.notCalled(spy);
+  });
+
+  it('does not emit same value twice', function () {
+    var spy = sinon.spy();
+    track.on('heading', spy);
+
+    loc.updateOrientation({
+      alpha: 120.1
+    });
+    loc.updateOrientation({
+      alpha: 120.2
+    });
+
+    sinon.assert.calledOnce(spy);
+  });
+
+  it('emits differing values', function () {
+    var spy = sinon.spy();
+    track.on('heading', spy);
+
+    loc.updateOrientation({
+      alpha: 120.1
+    });
+    loc.updateOrientation({
+      alpha: 121.1
+    });
+
+    sinon.assert.calledTwice(spy);
   });
 
   it('removes watch on destroy', function () {
