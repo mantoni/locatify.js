@@ -10,15 +10,6 @@
 
 var sinon = require('sinon');
 
-if (!navigator.geolocation) {
-  var noop = function () { return; };
-  // PhantomJS doesn't support geolocation.
-  navigator.geolocation = {
-    watchPosition: noop,
-    clearWatch: noop
-  };
-}
-
 exports.create = function () {
   var watch = sinon.stub(navigator.geolocation, 'watchPosition');
   var clear = sinon.stub(navigator.geolocation, 'clearWatch');
