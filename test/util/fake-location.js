@@ -17,7 +17,22 @@ exports.create = function () {
 
     updateOrientation(props) {
       const event = document.createEvent('HTMLEvents');
-      event.initEvent('deviceorientation', true, true);
+      if ('ondeviceorientationabsolute' in window) {
+        event.initEvent('deviceorientationabsolute', true, true);
+      } else {
+        event.initEvent('deviceorientation', true, true);
+      }
+      if (props) {
+        Object.keys(props).forEach((key) => {
+          event[key] = props[key];
+        });
+      }
+      document.dispatchEvent(event);
+    },
+
+    updateAbsoluteOrientation(props) {
+      const event = document.createEvent('HTMLEvents');
+      event.initEvent('deviceorientationabsolute', true, true);
       if (props) {
         Object.keys(props).forEach((key) => {
           event[key] = props[key];
