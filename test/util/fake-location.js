@@ -5,29 +5,28 @@
  *
  * @license MIT
  */
-/*global document, navigator*/
 'use strict';
 
-var sinon = require('sinon');
+const sinon = require('sinon');
 
 exports.create = function () {
-  var watch = sinon.stub(navigator.geolocation, 'watchPosition');
-  var clear = sinon.stub(navigator.geolocation, 'clearWatch');
+  const watch = sinon.stub(navigator.geolocation, 'watchPosition');
+  const clear = sinon.stub(navigator.geolocation, 'clearWatch');
 
   return {
 
-    updateOrientation: function (props) {
-      var event = document.createEvent('HTMLEvents');
+    updateOrientation(props) {
+      const event = document.createEvent('HTMLEvents');
       event.initEvent('deviceorientation', true, true);
       if (props) {
-        Object.keys(props).forEach(function (key) {
+        Object.keys(props).forEach((key) => {
           event[key] = props[key];
         });
       }
       document.dispatchEvent(event);
     },
 
-    destroy: function () {
+    destroy() {
       watch.restore();
       clear.restore();
     }

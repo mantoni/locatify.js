@@ -16,10 +16,10 @@
   },
   "scripts": {
     "watch": "mochify --watch",
-    "lint": "jslint --edition=latest --color \"**/*.js\"",
+    "lint": "eslint .",
     "wd": "mochify --wd",
     "pretest": "npm run lint",
-    "test": "mochify --cover",
+    "test": "mochify",
     "preversion": "npm test",
     "version": "changes",
     "postversion": "git push --follow-tags && npm publish"
@@ -28,9 +28,16 @@
     "type": "git",
     "url": "https://github.com/mantoni/locatify.js.git"
   },
+  "eslintConfig": {
+    "extends": "@studio",
+    "env": {
+      "browser": true
+    }
+  },
   "devDependencies": {
     "@studio/changes": "^1.4.0",
-    "jslint": "^0.8",
+    "@studio/eslint-config": "^1.0.2",
+    "eslint": "^4.19.1",
     "mochify": "^5.6.1",
     "sinon": "^5.0.7"
   },

@@ -1,3 +1,4 @@
+/*eslint-env mocha*/
 /*
  * locatify.js
  *
@@ -5,33 +6,30 @@
  *
  * @license MIT
  */
-/*global describe, it, before, after, beforeEach, afterEach, document,
-  navigator*/
 'use strict';
 
-var assert = require('assert');
-var sinon = require('sinon');
-var tracker = require('../lib/location-tracker');
-var fakeLocation = require('./util/fake-location');
+const sinon = require('sinon');
+const tracker = require('../lib/location-tracker');
+const fakeLocation = require('./util/fake-location');
 
 
-describe('location-tracker', function () {
-  var loc;
-  var track;
-  var watch;
+describe('location-tracker', () => {
+  let loc;
+  let track;
+  let watch;
 
-  beforeEach(function () {
+  beforeEach(() => {
     loc = fakeLocation.create();
     track = tracker.create();
     watch = navigator.geolocation.watchPosition;
   });
 
-  afterEach(function () {
+  afterEach(() => {
     loc.destroy();
     track.destroy();
   });
 
-  it('watches position', function () {
+  it('watches position', () => {
     sinon.assert.calledOnce(watch);
     sinon.assert.calledWith(watch, sinon.match.func, sinon.match.func, {
       enableHighAccuracy: true,
@@ -39,8 +37,8 @@ describe('location-tracker', function () {
     });
   });
 
-  it('emits "error" event if position unavailable', function () {
-    var spy = sinon.spy();
+  it('emits "error" event if position unavailable', () => {
+    const spy = sinon.spy();
     track.on('error', spy);
 
     watch.firstCall.args[1]({
@@ -55,8 +53,8 @@ describe('location-tracker', function () {
     });
   });
 
-  it('emits "error" event for unknown error', function () {
-    var spy = sinon.spy();
+  it('emits "error" event for unknown error', () => {
+    const spy = sinon.spy();
     track.on('error', spy);
 
     watch.firstCall.args[1]({
@@ -69,8 +67,8 @@ describe('location-tracker', function () {
     });
   });
 
-  it('emits "position" on position change', function () {
-    var spy = sinon.spy();
+  it('emits "position" on position change', () => {
+    const spy = sinon.spy();
     track.on('position', spy);
 
     watch.firstCall.args[0]({
@@ -89,8 +87,8 @@ describe('location-tracker', function () {
     });
   });
 
-  it('emits "heading" on orientation change (standard)', function () {
-    var spy = sinon.spy();
+  it('emits "heading" on orientation change (standard)', () => {
+    const spy = sinon.spy();
     track.on('heading', spy);
 
     loc.updateOrientation({
@@ -101,8 +99,8 @@ describe('location-tracker', function () {
     sinon.assert.calledWith(spy, 240);
   });
 
-  it('emits "heading" on orientation change (webkit)', function () {
-    var spy = sinon.spy();
+  it('emits "heading" on orientation change (webkit)', () => {
+    const spy = sinon.spy();
     track.on('heading', spy);
 
     loc.updateOrientation({
@@ -114,8 +112,8 @@ describe('location-tracker', function () {
     sinon.assert.calledWith(spy, 120);
   });
 
-  it('does not emit "heading" if value is null (standard)', function () {
-    var spy = sinon.spy();
+  it('does not emit "heading" if value is null (standard)', () => {
+    const spy = sinon.spy();
     track.on('heading', spy);
 
     loc.updateOrientation({
@@ -125,8 +123,8 @@ describe('location-tracker', function () {
     sinon.assert.notCalled(spy);
   });
 
-  it('does not emit "heading" if value is null (webkit)', function () {
-    var spy = sinon.spy();
+  it('does not emit "heading" if value is null (webkit)', () => {
+    const spy = sinon.spy();
     track.on('heading', spy);
 
     loc.updateOrientation({
@@ -136,8 +134,8 @@ describe('location-tracker', function () {
     sinon.assert.notCalled(spy);
   });
 
-  it('does not emit "heading" if none of the values is given', function () {
-    var spy = sinon.spy();
+  it('does not emit "heading" if none of the values is given', () => {
+    const spy = sinon.spy();
     track.on('heading', spy);
 
     loc.updateOrientation({});
@@ -145,8 +143,8 @@ describe('location-tracker', function () {
     sinon.assert.notCalled(spy);
   });
 
-  it('does not emit "heading" after destroy', function () {
-    var spy = sinon.spy();
+  it('does not emit "heading" after destroy', () => {
+    const spy = sinon.spy();
     track.on('heading', spy);
     track.destroy();
 
@@ -157,8 +155,8 @@ describe('location-tracker', function () {
     sinon.assert.notCalled(spy);
   });
 
-  it('does not emit same value twice', function () {
-    var spy = sinon.spy();
+  it('does not emit same value twice', () => {
+    const spy = sinon.spy();
     track.on('heading', spy);
 
     loc.updateOrientation({
@@ -171,8 +169,8 @@ describe('location-tracker', function () {
     sinon.assert.calledOnce(spy);
   });
 
-  it('emits differing values', function () {
-    var spy = sinon.spy();
+  it('emits differing values', () => {
+    const spy = sinon.spy();
     track.on('heading', spy);
 
     loc.updateOrientation({
@@ -185,7 +183,7 @@ describe('location-tracker', function () {
     sinon.assert.calledTwice(spy);
   });
 
-  it('removes watch on destroy', function () {
+  it('removes watch on destroy', () => {
     track.destroy();
 
     sinon.assert.calledOnce(navigator.geolocation.clearWatch);
