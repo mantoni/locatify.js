@@ -92,6 +92,7 @@ describe('location-tracker', () => {
     track.on('heading', spy);
 
     loc.updateOrientation({
+      absolute: true,
       alpha: 120.3
     });
 
@@ -104,6 +105,7 @@ describe('location-tracker', () => {
     track.on('heading', spy);
 
     loc.updateOrientation({
+      absolute: true,
       alpha: 6,
       webkitCompassHeading: 120.3
     });
@@ -112,11 +114,35 @@ describe('location-tracker', () => {
     sinon.assert.calledWith(spy, 120);
   });
 
+  it('emits "error" event once if standard event is not absolute', () => {
+    const error = sinon.spy();
+    track.on('error', error);
+    const heading = sinon.spy();
+    track.on('heading', heading);
+
+    loc.updateOrientation({
+      absolute: false,
+      alpha: 6
+    });
+    loc.updateOrientation({
+      absolute: false,
+      alpha: 7
+    });
+
+    sinon.assert.calledOnce(error);
+    sinon.assert.calledWithMatch(error, {
+      code: 'E_RELATIVE',
+      message: 'Orientation tracking not absolute'
+    });
+    sinon.assert.notCalled(heading);
+  });
+
   it('does not emit "heading" if value is null (standard)', () => {
     const spy = sinon.spy();
     track.on('heading', spy);
 
     loc.updateOrientation({
+      absolute: true,
       alpha: null
     });
 
@@ -128,6 +154,7 @@ describe('location-tracker', () => {
     track.on('heading', spy);
 
     loc.updateOrientation({
+      absolute: true,
       webkitCompassHeading: null
     });
 
@@ -138,7 +165,9 @@ describe('location-tracker', () => {
     const spy = sinon.spy();
     track.on('heading', spy);
 
-    loc.updateOrientation({});
+    loc.updateOrientation({
+      absolute: true
+    });
 
     sinon.assert.notCalled(spy);
   });
@@ -149,6 +178,7 @@ describe('location-tracker', () => {
     track.destroy();
 
     loc.updateOrientation({
+      absolute: true,
       alpha: 120
     });
 
@@ -160,9 +190,11 @@ describe('location-tracker', () => {
     track.on('heading', spy);
 
     loc.updateOrientation({
+      absolute: true,
       alpha: 120.1
     });
     loc.updateOrientation({
+      absolute: true,
       alpha: 120.2
     });
 
@@ -174,9 +206,11 @@ describe('location-tracker', () => {
     track.on('heading', spy);
 
     loc.updateOrientation({
+      absolute: true,
       alpha: 120.1
     });
     loc.updateOrientation({
+      absolute: true,
       alpha: 121.1
     });
 
