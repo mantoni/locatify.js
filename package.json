@@ -12,7 +12,7 @@
   "homepage": "https://github.com/mantoni/locatify.js",
   "main": "./lib/location-tracker.js",
   "engines": {
-    "node": ">=0.10"
+    "node": ">=6"
   },
   "scripts": {
     "watch": "mochify --watch",
