@@ -1,5 +1,10 @@
 # Changes
 
+## 2.0.1
+
+- Fail if orientation event is relative
+- Use absolute device orientation event if available
+
 ## 2.0.0
 
 - Require node 6
